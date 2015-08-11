@@ -56,7 +56,9 @@ classdef OrientationFusion < handle
       
       % Calculating magnetic direction and rotating device quaternion
       % accordingly
-      magneticDirection = Quaternion([0, magnet(1:3)]);
+      magneticFieldQuaternion = Quaternion([0, magnet(1:3)]);
+      currQuatCojugate = Quaternion(currQuat.conjugate);
+      magneticDirection = magneticFieldQuaternion.QuaternionProduct(currQuatCojugate);
       h = currQuat.QuaternionProduct(magneticDirection);
     
       
@@ -81,7 +83,7 @@ classdef OrientationFusion < handle
       Jg(2,:) = 2*[currQuat.base(2),	currQuat.base(1),  currQuat.base(4),    currQuat.base(3)];
       Jg(3,:) = 4*[0,                 -currQuat.base(2), -currQuat.base(3),   0];
     
-      Jb(1,:) = 2*[-b(4)*currQuat.base(3),                          b(4)*currQuat.base(4),                            -2*b(1)*currQuat.base(3) - b(4)*currQuat.base(1),   -2*b(2)*currQuat.base(4) + b(4)*currQuat.base(2)];
+      Jb(1,:) = 2*[-b(4)*currQuat.base(3),                          b(4)*currQuat.base(4),                            -2*b(2)*currQuat.base(3) - b(4)*currQuat.base(1),   -2*b(2)*currQuat.base(4) + b(4)*currQuat.base(2)];
       Jb(2,:) = 2*[-b(2)*currQuat.base(4) + b(4)*currQuat.base(2),  b(2)*currQuat.base(3) + b(4)*currQuat.base(1),    b(2)*currQuat.base(2) + b(4)*currQuat.base(4),      -b(2)*currQuat.base(1) + b(4)*currQuat.base(3)];
       Jb(3,:) = 2*[b(2)*currQuat.base(3),                           b(2)*currQuat.base(4) - 2*b(4)*currQuat.base(2),  b(2)*currQuat.base(1) - 2*b(4)*currQuat.base(3),    b(2)*currQuat.base(2)];
 
