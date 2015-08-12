@@ -116,8 +116,6 @@ classdef Quaternion < handle
       R(3,1) = 2*( q(2)*q(4) + q(1)*q(3) );
       R(3,2) = 2*( q(3)*q(4) - q(1)*q(2) );
       R(3,3) = 2*(q(1)^2) - 1 + 2*(q(4)^2);
-      
-      % TODO - TEST
     end
     
     
@@ -125,14 +123,13 @@ classdef Quaternion < handle
     % INPUT:  {1} OBJ - THE QUATERNION OBJECT
     % OUTPUT: {1} EULER - 3-ELEMENT VECTOR [ROT_X, ROT_Y, ROT_Z] IN RADIANS
     function [ euler ] = QuaternionToEuler( obj )
-      q = obj.base;
+      q = obj.conjugate;
       
-      rot_x = atan2( 2*q(3)*q(4) - 2*q(1)*q(2), 2*(q(1)^2) + 2*(q(4)^2) - 1 );
+      rot_x = atan2( 2*q(2)*q(3) - 2*q(1)*q(4), 2*(q(1)^2) + 2*(q(2)^2) - 1 );
       rot_y = -asin( 2*q(2)*q(4) + 2*q(1)*q(3) );
-      rot_z = atan2( 2*q(2)*q(3) - 2*q(1)*q(4), 2*(q(1)^2) + 2*(q(2)^2) - 1 );
+      rot_z = atan2( 2*q(3)*q(4) - 2*q(1)*q(2), 2*(q(1)^2) + 2*(q(4)^2) - 1 );
        
-      
-      % TODO - TEST
+      euler = [rot_x, rot_y, rot_z];
     end
   end
   
