@@ -1,5 +1,7 @@
 classdef OrientationFusion < handle
   
+  
+  % -----------------------
   % OrientationFusion class
   % -----------------------
   %
@@ -9,17 +11,22 @@ classdef OrientationFusion < handle
   % Based on "An Efficient orientation filter for inertial and
   % inertial/magnetic sensor arrays", Sebastian O.H. Madgwick, April 2010
   
+  
   properties (Access = private)
     SampleTime = [];                % Gap between measurements
     CurrentQuaternion = [];         % Current pose quaternion
     FilterGain = [];                % Gyroscope bias gain
   end
   
+  
   methods
+    
+    % -----------------
     % OrientationFusion
     % -----------------
     %
-    % Constructor
+    % Constructor, initializes a new instance according to time constant
+    % and gain
     function [ obj ] = OrientationFusion( time, gain )
       obj.SampleTime = time;
       obj.FilterGain = gain;
@@ -27,6 +34,8 @@ classdef OrientationFusion < handle
     end
     
     
+    
+    % -------
     % Process
     % -------
     %
@@ -112,6 +121,13 @@ classdef OrientationFusion < handle
     end
     
     
+    
+    % --------------------
+    % GetCurrentQuaternion
+    % --------------------
+    %
+    % Get function for the current quaternion field in the class.
+    % represents the current orientation during the fusion
     function [ quat ] = GetCurrentQuaternion( obj )
       quat = obj.CurrentQuaternion;
     end
