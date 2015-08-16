@@ -178,6 +178,20 @@ classdef AugmentedObject < handle
     % plane (Image) according to a camera model object
     function [ obj ] = ShapeToImage( cameraModel )
       
+      [m,n] = size(obj.Points)
+      obj.PointsImage = zeros(m,2);
+      
+      
+      % Camera model projection of shape's points
+      for i = 1:size(obj.Points)
+        currProjectedPoint = cameraModel.Point2Pixel(obj.Points(i,:)');
+        obj.PointsImage(i,:) = currProjectedPoint';
+      end
+      
+      
+      % Topology indices remain the same after projection
+      obj.LinesImage = obj.Lines;
+      obj.FacesImage = obj.Faces;
     end
   end
   
