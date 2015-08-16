@@ -176,7 +176,7 @@ classdef AugmentedObject < handle
     %
     % Projets the AugmentedObject shape from 3D space (World) to 2D image
     % plane (Image) according to a camera model object
-    function [ obj ] = ShapeToImage( cameraModel )
+    function [ obj ] = ShapeToImage( obj, cameraModel )
       
       [m,n] = size(obj.Points)
       obj.PointsImage = zeros(m,2);
