@@ -1,14 +1,12 @@
 classdef AugmentedObject < handle
   
-  properties (Access = private)
+  properties (Access = public)
     ShapeRadius
     Position
     Points
     Lines
     Faces
     PointsImage
-    LinesImage
-    FacesImage
   end
   
   methods
@@ -25,8 +23,6 @@ classdef AugmentedObject < handle
       obj.Lines = [];
       obj.Faces = [];
       obj.PointsImage = [];
-      obj.LinesImage = [];
-      obj.FacesImage = [];
     end
     
     
@@ -178,7 +174,7 @@ classdef AugmentedObject < handle
     % plane (Image) according to a camera model object
     function [ obj ] = ShapeToImage( obj, cameraModel )
       
-      [m,n] = size(obj.Points)
+      [m,n] = size(obj.Points);
       obj.PointsImage = zeros(m,2);
       
       
@@ -187,11 +183,78 @@ classdef AugmentedObject < handle
         currProjectedPoint = cameraModel.Point2Pixel(obj.Points(i,:)');
         obj.PointsImage(i,:) = currProjectedPoint';
       end
+    end
+    
+    
+    
+    % ----------------
+    % VisualizeLines2D
+    % ----------------
+    %
+    % Visualizes the augmented object's faces in a 2D face plot (for
+    % displaying the shape on the movie)
+    function [ obj ] = VisualizeLines2D( obj )
       
       
-      % Topology indices remain the same after projection
-      obj.LinesImage = obj.Lines;
-      obj.FacesImage = obj.Faces;
+      % Making sure we have a figure ready
+      if nargin > 1
+        currHandle = figHandle;
+      else
+        currHandle = figure;
+      end
+      
+      
+      figure(currHandle);
+      hold on;
+      
+      for i = 1:size(obj.Lines,1)
+        currentPair = zeros(2,2);
+        currentPair(:,1) = [obj.PointsImage(obj.Lines(i,1),1); obj.PointsImage(obj.Lines(i,2),1)];
+        currentPair(:,2) = [obj.PointsImage(obj.Lines(i,1),2); obj.PointsImage(obj.Lines(i,2),2)];
+        line(currentPair(:,1), currentPair(:,2));
+      end
+      
+      
+      % Assigning figure to output argument
+      figHandle = currHandle;
+    end
+    
+    
+    
+    % ----------------
+    % VisualizeFaces2D
+    % ----------------
+    %
+    % Visualizes the augmented object's faces in a 2D face plot (for
+    % displaying the shape on the movie)
+    function [ obj ] = VisualizeFaces2D( obj )
+      
+      
+      % Making sure we have a figure ready
+      if nargin > 1
+        currHandle = figHandle;
+      else
+        currHandle = figure;
+      end
+      
+      
+      % For better readability, shorter names
+      f = obj.Faces;
+      p = obj.PointsImage;
+      
+      figure(currHandle);
+      hold on;
+      
+      for i = 1:size(obj.Faces)
+        currentSet = zeros(5,3);
+        currentSet(:,1) = [p(f(i,1),1); p(f(i,2),1); p(f(i,3),1); p(f(i,4),1); p(f(i,5),1)];
+        currentSet(:,2) = [p(f(i,1),2); p(f(i,2),2); p(f(i,3),2); p(f(i,4),2); p(f(i,5),2)];
+        fill(currentSet(:,1), currentSet(:,2), rand);
+      end
+      
+      
+      % Assigning figure to output argument
+      figHandle = currHandle;
     end
   end
   
