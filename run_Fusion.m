@@ -27,12 +27,12 @@ figEuler = PlotValuesEuler(eulerAngles, time);
 
 
 % Updating creating camera model for each timeframe
-model = CameraModel(1000, 1000, 500, 500, 0, 0, 0, 0, 0, 0, [1000 1000]);
-
-for i = 1:size(eulerAngles, 1)
-  currEuler = eulerAngles(i,:);
-  currOmega = currEuler(1);
-  currPhi = currEuler(2);
-  currKappa = currEuler(3);
-  model = model.UpdateByRotation(currOmega, currPhi, currKappa);
-end
+% model = CameraModel(1000, 1000, 500, 500, 0, 0, 0, 0, 0, 0, [1000 1000]);
+% 
+% for i = 1:size(eulerAngles, 1)
+%   currEuler = eulerAngles(i,:);
+%   currOmega = currEuler(1);
+%   currPhi = currEuler(2);
+%   currKappa = currEuler(3);
+%   model = model.UpdateByRotation(currOmega, currPhi, currKappa);
+% end
