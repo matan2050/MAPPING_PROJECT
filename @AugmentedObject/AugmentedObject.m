@@ -91,7 +91,7 @@ classdef AugmentedObject < handle
       obj.Faces(3,:) = [2,6,8,7,2]; % V
       obj.Faces(4,:) = [4,5,8,6,4]; % V
       obj.Faces(5,:) = [3,5,4,1,3]; % V
-      obj.Faces(6,:) = [7,3,5,8,7];
+      obj.Faces(6,:) = [7,3,5,8,7]; % V
     end
     
     
@@ -105,13 +105,11 @@ classdef AugmentedObject < handle
     function [ figHandle ] = VisualizeLines3D( obj, figHandle )
       
       % Making sure we have a figure ready
-      if nargin > 1
-        currHandle = figHandle;
-      else
-        currHandle = figure;
+      if nargin < 2
+        figHandle = [];
       end
       
-      figure(currHandle);
+      figHandle = AssertFigureHandle(figHandle);
       hold on;
       
       for i = 1:size(obj.Lines,1)
@@ -121,10 +119,6 @@ classdef AugmentedObject < handle
         currentPair(:,3) = [obj.Points(obj.Lines(i,1),3); obj.Points(obj.Lines(i,2),3)];
         line(currentPair(:,1), currentPair(:,2), currentPair(:,3));
       end
-      
-      
-      % Assigning figure to output argument
-      figHandle = currHandle;
     end
     
     
@@ -139,20 +133,17 @@ classdef AugmentedObject < handle
       
       
       % Making sure we have a figure ready
-      if nargin > 1
-        currHandle = figHandle;
-      else
-        currHandle = figure;
+      if nargin < 2
+        figHandle = [];
       end
+      
+      figHandle = AssertFigureHandle(figHandle);
+      hold on;
       
       
       % For better readability, shorter names
       f = obj.Faces;
       p = obj.Points;
-      
-      
-      figure(currHandle);
-      hold on;
       
       
       for i = 1:size(obj.Faces)
@@ -193,18 +184,16 @@ classdef AugmentedObject < handle
     %
     % Visualizes the augmented object's faces in a 2D face plot (for
     % displaying the shape on the movie)
-    function [ obj ] = VisualizeLines2D( obj )
+    function [ figHandle ] = VisualizeLines2D( obj, figHandle )
       
       
       % Making sure we have a figure ready
-      if nargin > 1
-        currHandle = figHandle;
-      else
-        currHandle = figure;
+      if nargin < 2
+        figHandle = [];
       end
       
       
-      figure(currHandle);
+      figHandle = AssertFigureHandle(figHandle);
       hold on;
       
       for i = 1:size(obj.Lines,1)
@@ -213,10 +202,6 @@ classdef AugmentedObject < handle
         currentPair(:,2) = [obj.PointsImage(obj.Lines(i,1),2); obj.PointsImage(obj.Lines(i,2),2)];
         line(currentPair(:,1), currentPair(:,2));
       end
-      
-      
-      % Assigning figure to output argument
-      figHandle = currHandle;
     end
     
     
@@ -227,34 +212,52 @@ classdef AugmentedObject < handle
     %
     % Visualizes the augmented object's faces in a 2D face plot (for
     % displaying the shape on the movie)
-    function [ obj ] = VisualizeFaces2D( obj )
+    function [ figHandle ] = VisualizeFaces2D( obj, figHandle )
       
       
       % Making sure we have a figure ready
-      if nargin > 1
-        currHandle = figHandle;
-      else
-        currHandle = figure;
+      if nargin < 2
+        figHandle = [];
       end
+      
+      
+      figHandle = AssertFigureHandle(figHandle);
+      figure(figHandle);
+      hold on;
       
       
       % For better readability, shorter names
       f = obj.Faces;
       p = obj.PointsImage;
       
-      figure(currHandle);
-      hold on;
       
       for i = 1:size(obj.Faces)
-        currentSet = zeros(5,3);
+        currentSet = zeros(5,2);
         currentSet(:,1) = [p(f(i,1),1); p(f(i,2),1); p(f(i,3),1); p(f(i,4),1); p(f(i,5),1)];
         currentSet(:,2) = [p(f(i,1),2); p(f(i,2),2); p(f(i,3),2); p(f(i,4),2); p(f(i,5),2)];
         fill(currentSet(:,1), currentSet(:,2), rand);
       end
+    end
+    
+    
+    
+    % ----------------
+    % VisualizeShape2D
+    % ----------------
+    %
+    % Visualizes the augmented object's faces and lines in a 2D face plot (for
+    % displaying the shape on the movie)
+    function [ figHandle ] = VisualizeShape2D( obj, figHandle )
       
+      if nargin < 2
+        figHandle = [];
+      end
       
-      % Assigning figure to output argument
-      figHandle = currHandle;
+      figHandle = AssertFigureHandle(figHandle);
+      hold on;
+      
+      figHandle = obj.VisualizeLines2D(figHandle);
+      figHandle = obj.VisualizeFaces2D(figHandle);
     end
   end
   
