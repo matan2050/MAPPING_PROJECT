@@ -3,7 +3,7 @@ classdef CameraModel < handle
   % calibration matrix (K), orientation (C vector and R matrix) and the
   % projective transformation matrix P
   
-  properties (Access = private)
+  properties (Access = public)
     % Intirinsic Parameters
     Fu                                      % focal length u-axis
     Fv                                      % focal length v-axis
@@ -164,8 +164,8 @@ classdef CameraModel < handle
       obj.Phi = phi;
       obj.Kappa = kappa;
       
-      obj.RebuildR();
-      obj.RebuildP();
+      obj.R = obj.RebuildR();
+      obj.P = obj.RebuildP();
     end
     
     
@@ -181,8 +181,8 @@ classdef CameraModel < handle
       obj.Y0 = y0;
       obj.Z0 = z0;
       
-      obj.RebuildC();
-      obj.RebuildP();
+      obj.C = obj.RebuildC();
+      obj.P = obj.RebuildP();
     end
     
     
@@ -199,8 +199,8 @@ classdef CameraModel < handle
       obj.Cu = cu;
       obj.Cv = cv;
       
-      obj.RebuildK();
-      obj.RebuildP();
+      obj.K = obj.RebuildK();
+      obj.P = obj.RebuildP();
     end
   end
   
