@@ -119,6 +119,8 @@ classdef AugmentedObject < handle
         currentPair(:,3) = [obj.Points(obj.Lines(i,1),3); obj.Points(obj.Lines(i,2),3)];
         line(currentPair(:,1), currentPair(:,2), currentPair(:,3));
       end
+      
+      hold off;
     end
     
     
@@ -153,6 +155,8 @@ classdef AugmentedObject < handle
         currentSet(:,3) = [p(f(i,1),3); p(f(i,2),3); p(f(i,3),3); p(f(i,4),3); p(f(i,5),3)];
         fill3(currentSet(:,1), currentSet(:,2), currentSet(:,3), rand);
       end
+      
+      hold off;
     end
     
     
@@ -202,6 +206,8 @@ classdef AugmentedObject < handle
         currentPair(:,2) = [obj.PointsImage(obj.Lines(i,1),2); obj.PointsImage(obj.Lines(i,2),2)];
         line(currentPair(:,1), currentPair(:,2));
       end
+      
+      hold off;
     end
     
     
@@ -237,6 +243,8 @@ classdef AugmentedObject < handle
         currentSet(:,2) = [p(f(i,1),2); p(f(i,2),2); p(f(i,3),2); p(f(i,4),2); p(f(i,5),2)];
         fill(currentSet(:,1), currentSet(:,2), rand);
       end
+      
+      hold off;
     end
     
     
@@ -258,6 +266,8 @@ classdef AugmentedObject < handle
       
       figHandle = obj.VisualizeLines2D(figHandle);
       figHandle = obj.VisualizeFaces2D(figHandle);
+      
+      hold off;
     end
   end
   
