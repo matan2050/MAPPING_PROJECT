@@ -37,7 +37,7 @@ classdef CameraModel < handle
     % Constructor,
     % takes all intrinsic and extrinsic parameters and initializes the relevant
     % matrices to allow method Point2Pixel
-    function obj = CameraModel(obj, fu, fv, cu, cv, omega, phi, kappa, x0, y0, z0, imageSize)
+    function obj = CameraModel(fu, fv, cu, cv, omega, phi, kappa, x0, y0, z0, imageSize)
       
       % Updating intrinsic parameters
       obj.Fu = fu;
