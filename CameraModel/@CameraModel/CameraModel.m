@@ -153,6 +153,32 @@ classdef CameraModel < handle
     
     
     
+    % ------------
+    % Pixel2Vector
+    % ------------
+    %
+    % Returns the Line-of-Sight vector that originates in the camera's
+    % focal point and ends in the given ij position
+    function [ vector ] = Pixel2Vector( obj, pixel)
+      
+      % Input check - make sure ij pixel is a column vector
+      [m,n] = size(pixel);
+      
+      if n == 2
+        pixel = pixel';
+      end
+      
+      
+      % Calculating the vector
+      vector = ((obj.K*obj.R)^-1)*[pixel; 1];
+      
+      
+      % Normalizing
+      vector = vector / norm(vector);
+    end
+    
+    
+    
     % ----------------
     % UpdateByRotation
     % ----------------

@@ -38,6 +38,27 @@ classdef AugmentedObject < handle
       obj.ShapeRadius = shapeRadius;
       obj = obj.GeneratePoints();
     end
+    
+    
+    
+    % -----------------------------
+    % CreateShapeByModelOrientation
+    % -----------------------------
+    %
+    % Creates a new 3D shape around a point in a given distance from the
+    % camera model
+    function [ obj ] = CreateShapeByModelOrientation( obj, model, distance, radius )
+      
+      % Generate LOS vector from image center
+      vec = model.Pixel2Vector([model.Cu; model.Cv]);
+      
+      % Multiply normalized vector by distance to get 3D point
+      vec = vec * distance;
+      shapeCenter = model.C + vec;
+      
+      % The actual shape creation
+      obj = obj.CreateShape(shapeCenter, radius);
+    end
         
     
     
@@ -228,7 +249,7 @@ classdef AugmentedObject < handle
       
       
       figHandle = AssertFigureHandle(figHandle);
-      figure(figHandle);
+      %figure(figHandle);
       hold on;
       
       
@@ -237,7 +258,7 @@ classdef AugmentedObject < handle
       p = obj.PointsImage;
       
       
-      for i = 1:size(obj.Faces)
+      for i = 1:size(obj.Faces,1)
         currentSet = zeros(5,2);
         currentSet(:,1) = [p(f(i,1),1); p(f(i,2),1); p(f(i,3),1); p(f(i,4),1); p(f(i,5),1)];
         currentSet(:,2) = [p(f(i,1),2); p(f(i,2),2); p(f(i,3),2); p(f(i,4),2); p(f(i,5),2)];
