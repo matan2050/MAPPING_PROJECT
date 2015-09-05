@@ -8,4 +8,3 @@ R3 = [cos(kappa) -sin(kappa) 0; sin(kappa) cos(kappa) 0; 0 0 1];
 matrix = R1*R2*R3;
 
 end
-

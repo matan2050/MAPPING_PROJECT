@@ -1,22 +1,20 @@
 %% Testing projection
 
-% Creating augmented object
-object = AugmentedObject();
-object.CreateShape([20; 0; 0], 0.5);
-
-
 % Creating camera model
 model = CameraModel(1000, 1000, 240, 360, 0, 0, 0, 0, 0, 0, [480 720]);
-model.UpdateByRotation(0, 0, 0);
+model.UpdateByRotation(0, pi/2, pi);
 K = model.K;
 R = model.R;
 vec = (K^-1)*(R^-1)*[240;360;1]; % checking LOS
 pix = model.Point2Pixel([100;0;0]); % checking projection on camera
 
-
 run_Fusion;
 
-
+angs = eulerAngles(80,:)*pi/180;
+model.UpdateByRotation(angs(1), angs(2), angs(3));
+% Creating augmented object
+object = AugmentedObject();
+object.CreateShapeByModelOrientation(model, 10, 1);
 if (0)
   videoPath = 'C:\Users\User\Dropbox\MAPPING_PROJECT\Data\1_Jun_2015_17-08-31_GMT\video-1_Jun_2015_17-08-31_GMT.mp4';
   [mov, frameRate] = VideoToFrames(videoPath);
@@ -27,7 +25,7 @@ newVideoFramesPath = FixDir([FixDir(videoPartsPath) videoPartsFile '_new']);
 mkDirAdapter(newVideoFramesPath);
 
 
-for i = 1:size(eulerAngles,1)
+for i = 80:size(eulerAngles,1)
   frame = [FixDir(newVideoFramesPath) 'frame' num2str(i) '.jpg'];
   angs = eulerAngles(i,:);
   angs = angs*pi/180;
@@ -35,10 +33,10 @@ for i = 1:size(eulerAngles,1)
   fig = imshow(mov(i).cdata);
   hold on;
 
-  
+   
   object.ShapeToImage(model);
-  f = object.Faces
-  p = object.PointsImage
+  f = object.Faces;
+  p = object.PointsImage;
   
   for j = 1:size(object.Faces, 1)
     currentSet = zeros(5,2);
@@ -48,6 +46,7 @@ for i = 1:size(eulerAngles,1)
   end
   saveas(fig, frame, 'jpeg');
   hold off;
-  
-  %FramesToVideo( newVideo, framesStructOrFiles, frameRate )
 end
+
+FramesToVideo( newVideo, newVideoFramesPath, frameRate )
+
