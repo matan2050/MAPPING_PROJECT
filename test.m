@@ -1,7 +1,7 @@
 %% Testing projection
 
 % Creating camera model
-model = CameraModel(1000, 1000, 240, 360, 0, 0, 0, 0, 0, 0, [480 720]);
+model = CameraModel(4241, 4241, 184, 328, 0, 0, 0, 0, 0, 0, [368 656]);
 model.UpdateByRotation(0, pi/2, pi);
 K = model.K;
 R = model.R;
@@ -10,13 +10,14 @@ pix = model.Point2Pixel([100;0;0]); % checking projection on camera
 
 run_Fusion;
 
-angs = eulerAngles(80,:)*pi/180;
+angs = eulerAngles(50,:)*pi/180;
 model.UpdateByRotation(angs(1), angs(2), angs(3));
 % Creating augmented object
 object = AugmentedObject();
-object.CreateShapeByModelOrientation(model, 10, 1);
+object.CreateShapeByModelOrientation(model, 100, 5);
 if (0)
-  videoPath = 'C:\Users\User\Dropbox\MAPPING_PROJECT\Data\1_Jun_2015_17-08-31_GMT\video-1_Jun_2015_17-08-31_GMT.mp4';
+  %videoPath = 'C:\Users\User\Dropbox\MAPPING_PROJECT\Data\1_Jun_2015_17-08-31_GMT\video-1_Jun_2015_17-08-31_GMT.mp4';
+  videoPath = 'C:\Users\User\Dropbox\MAPPING_PROJECT\data\NewData\video-1441490475.mp4.mp4';
   [mov, frameRate] = VideoToFrames(videoPath);
 end
 [videoPartsPath, videoPartsFile, videoPartsExt] = fileparts(videoPath);
@@ -25,12 +26,14 @@ newVideoFramesPath = FixDir([FixDir(videoPartsPath) videoPartsFile '_new']);
 mkDirAdapter(newVideoFramesPath);
 
 
-for i = 80:size(eulerAngles,1)
+for i = 50:size(eulerAngles,1)
   frame = [FixDir(newVideoFramesPath) 'frame' num2str(i) '.jpg'];
   angs = eulerAngles(i,:);
   angs = angs*pi/180;
   model.UpdateByRotation(angs(1), angs(2), angs(3));
   fig = imshow(mov(i).cdata);
+%   img = 255*ones(1920, 1080, 3);
+%   fig = imshow(img);
   hold on;
 
    

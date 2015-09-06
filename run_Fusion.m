@@ -1,11 +1,12 @@
-load('MatanData4.mat');
+%load('MatanData4.mat');
+load('data.mat');
 
 % Plotting IMU data
 figImu = PlotValuesIMU(Accelerometer, Gyroscope, Magnetometer, time);
 
 [m,n] = size(time);
 
-Orientation = OrientationFusion(0.1, 0.15);
+Orientation = OrientationFusion(1/10, 0.5);
 quaternions = zeros(m,4);
 Rs = cell(m,1);
 eulerAngles = zeros(m,3);
